@@ -178,3 +178,4 @@ xgboost==1.7.6
 zipp==3.17.0
 setuptools>=58.0.0
 ctypesgen
+pypdfium2==4.24.0
