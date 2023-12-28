@@ -109,7 +109,7 @@ pycparser==2.21
 pydantic==1.10.12
 pydeck==0.8.1b0
 Pygments==2.15.1
-pyLDAvis==3.4.1
+pyLDAvis>=3.4.0
 pyparsing==3.0.9
 pypdfium2==4.25.0
 PySocks==1.7.1
