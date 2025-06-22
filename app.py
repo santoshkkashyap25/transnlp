@@ -4,24 +4,11 @@ import sys
 import nltk
 
 # Automatically download required tokenizer if not present
-# Safe wrapper to check and download NLTK resources if not already available
-def ensure_nltk_resources():
-    resources = {
-        "punkt": "tokenizers/punkt",
-        "punkt_tab": "tokenizers/punkt_tab",
-        "stopwords": "corpora/stopwords",
-        "wordnet": "corpora/wordnet",
-        "averaged_perceptron_tagger": "taggers/averaged_perceptron_tagger",
-    }
-
-    for resource, path in resources.items():
-        try:
-            nltk.data.find(path)
-        except LookupError:
-            nltk.download(resource)
-
-# Call this at the beginning of your Streamlit app or any script using NLTK
-ensure_nltk_resources()
+nltk.download("punkt")
+nltk.download('punkt_tab')
+nltk.download("stopwords")
+nltk.download("wordnet")
+nltk.download("averaged_perceptron_tagger")
 
 # Add src directory to Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
