@@ -1,4 +1,28 @@
+# --- Web Application ---
 streamlit
+
+# --- Web Scraping ---
+requests
+beautifulsoup4
+lxml
+
+# --- Data Processing ---
 pandas
 numpy
+
+# --- NLP ---
+nltk
+spacy
+gensim
+langdetect
+
+# --- Machine Learning ---
 scikit-learn
+
+# --- Visualization ---
+plotly
+matplotlib
+seaborn
+
+# --- IMDb API ---
+IMDbPY
