@@ -1,6 +1,6 @@
 # TransNLP: Transcript Analysis & IMDb Rating Predictor
 
-[Visit the App](https://transnlp.streamlit.app/)
+[Visit the App] : https://transnlp.streamlit.app/
 
 This project offers a comprehensive platform for analyzing stand-up comedy transcripts, leveraging Natural Language Processing (NLP) to extract valuable insights, predict content success, and visualize cultural trends. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/).
 
