@@ -20,7 +20,7 @@ def main_app():
     st.title(f"{APP_NAME}")
     st.write(
         """
-        Welcome to the **Content Analytics & Prediction**!
+        Welcome to the **Transcript Analysis & IMDb Rating Predictor**!
         This multi-page application transforms raw text into actionable insights for strategic decision-making in media and content creation.
         """
     )
