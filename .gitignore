@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.hypothesis/
+.pytest_cache/
+.benchmarks/
+
+# Jupyter Notebook specific files
+.ipynb_checkpoints/
+*.ipynb
+
+# Data files - generally large and generated
+data/raw/
+data/processed/
+# Specific files within processed that might be temporary or generated
+data/processed/processed_content_data.csv
+data/processed/processed_content_with_clusters.csv
+data/processed/processed_content_with_topics.csv
+/data/profanity.txt
+# Specific files within raw that are scraped/generated
+data/raw/transcripts/  # Directory for individual raw transcript files (e.g., .pkl)
+data/raw/scraped_and_cleaned_content_data.csv
+data/raw/profanity.txt # If this is a generated list
+
+
+# Logs
+app_logs.log
+logs/ # If you have a dedicated logs directory
+
+# Environment variables
+.env
+
+# IDE specific files
+.idea/                   # IntelliJ IDEA / PyCharm
+.vscode/                 # VS Code
+*.iml                    # IntelliJ IDEA modules
+
+# OS generated files
+.DS_Store
+.Trash/
+Thumbs.db
+ehthumbs.db
+*.bak
+*.swp
+*.swo
+
+# Streamlit specific
+.streamlit/
