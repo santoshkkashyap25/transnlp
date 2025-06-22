@@ -71,13 +71,10 @@ transnlp/
 ### Installation
 
 1.  **Clone the repository:**
-
-    ```bash
-    git clone [https://github.com/your-username/transnlp.git](https://github.com/your-username/transnlp.git)
-    cd transnlp
-
-
-    ```
+```bash
+git clone https://github.com/santoshkkashyap25/transnlp.git
+cd transnlp
+```
 
 2.  **Create and activate a virtual environment (recommended):**
 
