@@ -9,6 +9,7 @@ nltk.download('punkt_tab')
 nltk.download("stopwords")
 nltk.download("wordnet")
 nltk.download("averaged_perceptron_tagger")
+nltk.download("averaged_perceptron_tagger_eng")
 
 # Add src directory to Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
