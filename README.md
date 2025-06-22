@@ -1,27 +1,27 @@
-# 🎤 TransNLP: Stand-Up Comedy Transcript Analysis & IMDb Rating Predictor
+# TransNLP: Transcript Analysis & IMDb Rating Predictor
 
 This project offers a comprehensive platform for analyzing stand-up comedy transcripts, leveraging Natural Language Processing (NLP) to extract valuable insights, predict content success, and visualize cultural trends. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/).
 
-## ✨ Features
+## Features
 
-* **🌐 Web Scraping**: Automated collection of stand-up comedy transcripts, comedian names, show titles, and associated metadata (Year, IMDb Rating, Runtime) directly from the web.
+* **Web Scraping**: Automated collection of stand-up comedy transcripts, comedian names, show titles, and associated metadata (Year, IMDb Rating, Runtime) directly from the web.
 
-* **🧹 Data Preprocessing**: Robust cleaning pipeline including text normalization, stopword removal, lemmatization (using spaCy), profanity detection, and feature engineering (word count, diversity).
+* **Data Preprocessing**: Robust cleaning pipeline including text normalization, stopword removal, lemmatization (using spaCy), profanity detection, and feature engineering (word count, diversity).
 
-* **🧠 Topic Modeling (LDA)**: Utilizes Latent Dirichlet Allocation to uncover prevalent themes within comedy content (e.g., Politics, Relationships, Culture).
+* **Topic Modeling (LDA)**: Utilizes Latent Dirichlet Allocation to uncover prevalent themes within comedy content (e.g., Politics, Relationships, Culture).
 
-* **📊 Content Clustering**: Groups comedy specials into thematic clusters based on their textual content, providing macro-level insights.
+* **Content Clustering**: Groups comedy specials into thematic clusters based on their textual content, providing macro-level insights.
 
-* **🎯 IMDb Rating Prediction**: Predicts the potential IMDb rating category (Above Average / Below Average) for new content using an ensemble classification model, powered by extracted NLP features.
+* **IMDb Rating Prediction**: Predicts the potential IMDb rating category (Above Average / Below Average) for new content using an ensemble classification model, powered by extracted NLP features.
 
-* **📈 Trend Analysis**: Visualizes shifts in topic popularity and audience reception over time.
+* **Trend Analysis**: Visualizes shifts in topic popularity and audience reception over time.
 
-* **👥 Audience Insights**: Helps understand audience preferences by mapping content themes to historical performance.
+* **Audience Insights**: Helps understand audience preferences by mapping content themes to historical performance.
 
-* **🚀 Interactive Streamlit Dashboard**: A user-friendly web application for real-time content analysis, prediction, and interactive data exploration.
+* **Interactive Streamlit Dashboard**: A user-friendly web application for real-time content analysis, prediction, and interactive data exploration.
 
-## 📂 Project Structure
-
+## Project Structure
+```
 transnlp/
 ├── .streamlit/             # Streamlit specific configuration (e.g., config.toml)
 │   └── config.toml
@@ -63,9 +63,10 @@ transnlp/
 ├── README.md               # Project documentation
 ├── .gitignore              # Specifies intentionally untracked files to ignore
 └── .env                    # Environment variables (e.g., API keys - not committed
-## 🚀 Getting Started
+```
+## Getting Started
 
-### 🔧 Installation
+### Installation
 
 1.  **Clone the repository:**
 
@@ -103,7 +104,7 @@ transnlp/
 
     ```
 
-### 📈 Initial Setup (Data & Models)
+### Initial Setup (Data & Models)
 
 For the application to function correctly, you need to first scrape data and train the NLP and prediction models. This process involves executing specific scripts:
 
@@ -139,7 +140,7 @@ For the application to function correctly, you need to first scrape data and tra
 
     *This will train and save the `ensemble_classifier.pkl` model into `data/models/`.*
 
-### ▶️ Run the Streamlit App
+### Run the Streamlit App
 
 ```bash
 streamlit run app.py
