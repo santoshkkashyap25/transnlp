@@ -15,19 +15,14 @@ pip-delete-this-directory.txt
 .pytest_cache/
 .benchmarks/
 
-# Jupyter Notebook specific files
-.ipynb_checkpoints/
-*.ipynb
 
-# Data files - generally large and generated
+.ipynb_checkpoints/
+
 data/raw/
 data/processed/
-# Specific files within processed that might be temporary or generated
 data/processed/processed_content_data.csv
 data/processed/processed_content_with_clusters.csv
 data/processed/processed_content_with_topics.csv
-/data/profanity.txt
-# Specific files within raw that are scraped/generated
 data/raw/transcripts/  # Directory for individual raw transcript files (e.g., .pkl)
 data/raw/scraped_and_cleaned_content_data.csv
 data/raw/profanity.txt # If this is a generated list
