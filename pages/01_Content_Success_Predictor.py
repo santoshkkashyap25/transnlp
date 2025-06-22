@@ -1,8 +1,14 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from src.nltk_setup import setup_nltk_data
 from src.utils.logger import app_logger
-from src.predict_pipeline import predict_rating_type
+try:
+    from src.predict_pipeline import predict_rating_type
+except ImportError:
+    import time
+    time.sleep(2)
+    from src.predict_pipeline import predict_rating_type
 
 from src.utils.helpers import identity_tokenizer, identity_analyzer
 
