@@ -30,13 +30,11 @@ data/raw/profanity.txt # If this is a generated list
 
 # Logs
 app_logs.log
-logs/ # If you have a dedicated logs directory
+logs/
 
 # Environment variables
 .env
 
-# IDE specific files
-.idea/                   # IntelliJ IDEA / PyCharm
 .vscode/                 # VS Code
 *.iml                    # IntelliJ IDEA modules
 
