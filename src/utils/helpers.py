@@ -10,21 +10,11 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 import nltk
+from src.nltk_setup import setup_nltk_data 
 
+setup_nltk_data()
 app_logger = logging.getLogger(__name__)
 
-try:
-    nltk.data.find('corpora/stopwords')
-    nltk.data.find('corpora/wordnet')
-    nltk.data.find('tokenizers/punkt')
-    nltk.data.find('taggers/averaged_perceptron_tagger')
-except LookupError:
-    app_logger.info("Downloading NLTK data...")
-    nltk.download('stopwords')
-    nltk.download('wordnet')
-    nltk.download('punkt')
-    nltk.download('averaged_perceptron_tagger')
-    app_logger.info("NLTK data downloaded.")
 
 def clean_text(text):
     """Removes punctuation and non-alphabetic characters."""

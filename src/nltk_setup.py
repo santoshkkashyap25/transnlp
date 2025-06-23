@@ -1,43 +1,39 @@
-import nltk
 import os
-import sys
+import nltk
+from src.utils.logger import app_logger
 
 def setup_nltk_data():
     nltk_data_dir = os.path.join("/tmp", "nltk_data")
+    os.makedirs(nltk_data_dir, exist_ok=True)
 
-    if not os.path.exists(nltk_data_dir):
-        os.makedirs(nltk_data_dir)
-
+    # Ensure NLTK uses this directory
     os.environ["NLTK_DATA"] = nltk_data_dir
-
     if nltk_data_dir not in nltk.data.path:
         nltk.data.path.append(nltk_data_dir)
 
-    required_packages = [
-        "punkt",
-        "stopwords",
-        "wordnet",
-        "averaged_perceptron_tagger",
-        "punkt_tab",
-         "averaged_perceptron_tagger_eng"
-    ]
+    # Resources to verify and download if missing
+    required_packages = {
+        "punkt": "tokenizers/punkt",
+        "punkt_tab": "tokenizers/punkt_tab",
+        "stopwords": "corpora/stopwords",
+        "wordnet": "corpora/wordnet",
+        "averaged_perceptron_tagger": "taggers/averaged_perceptron_tagger",
+        "averaged_perceptron_tagger_eng": "taggers/averaged_perceptron_tagger_eng"
+    }
 
-    print(f"NLTK_DATA set to: {nltk_data_dir}") # Log for debugging
+    app_logger.info(f"NLTK_DATA set to: {nltk_data_dir}")
 
-    for package in required_packages:
+    for package, test_path in required_packages.items():
         try:
-            # Check if the package is already available
-            nltk.data.find(f'{package}')
-            print(f"NLTK package '{package}' already present.")
+            nltk.data.find(test_path)
+            app_logger.info(f"NLTK resource found: {package}")
         except LookupError:
-            # If not found, download it
-            print(f"Downloading NLTK package: {package} to {nltk_data_dir}...")
+            app_logger.info(f"⬇ Downloading missing NLTK resource: {package}")
             try:
                 nltk.download(package, download_dir=nltk_data_dir)
-                print(f"Successfully downloaded {package}.")
+                app_logger.info(f"Downloaded: {package}")
             except Exception as e:
-                print(f"Error downloading {package}: {e}")
-                # You might want more robust error handling here depending on your needs
+                app_logger.error(f"Failed to download {package}: {e}", exc_info=True)
 
-# Call this setup function immediately when this module is imported
+# Run setup immediately on import
 setup_nltk_data()
