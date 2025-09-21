@@ -2,9 +2,9 @@
 
 [Visit the App] : https://transnlp.streamlit.app/
 
-This project offers a comprehensive platform for analyzing stand-up comedy transcripts, leveraging Natural Language Processing (NLP) to extract valuable insights, predict content success, and visualize cultural trends. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/).
+This project offers platform for leveraging Natural Language Processing (NLP) to predict content success. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/).
 
-## Features
+## Features and EDA
 
 * **Web Scraping**: Automated collection of stand-up comedy transcripts, comedian names, show titles, and associated metadata (Year, IMDb Rating, Runtime) directly from the web.
 
@@ -16,17 +16,9 @@ This project offers a comprehensive platform for analyzing stand-up comedy trans
 
 * **IMDb Rating Prediction**: Predicts the potential IMDb rating category (Above Average / Below Average) for new content using an ensemble classification model, powered by extracted NLP features.
 
-* **Trend Analysis**: Visualizes shifts in topic popularity and audience reception over time.
-
-* **Audience Insights**: Helps understand audience preferences by mapping content themes to historical performance.
-
-* **Interactive Streamlit Dashboard**: A user-friendly web application for real-time content analysis, prediction, and interactive data exploration.
-
 ## Project Structure
 ```
 transnlp/
-├── .streamlit/             # Streamlit specific configuration (e.g., config.toml)
-│   └── config.toml
 ├── data/                   # Centralized data storage
 │   ├── raw/                # Raw scraped data and temporary transcript files
 │   │   ├── scraped_and_cleaned_content_data.csv
@@ -42,8 +34,6 @@ transnlp/
 │       └── ensemble_classifier.pkl
 ├── pages/                  # Streamlit multi-page application components
 │   ├── 01_Content_Success_Predictor.py
-│   ├── 02_Audience_Insights_&_Personalization.py
-│   └── 03_Cultural_Trend_Dashboard.py
 ├── scripts/                # Standalone scripts for data acquisition and initial processing
 │   ├── scrape_data.py      # Script to scrape and perform initial cleaning
 │   └── preprocess_data.py  # Script for further preprocessing and feature engineering
@@ -66,7 +56,7 @@ transnlp/
 ├── .gitignore              # Specifies intentionally untracked files to ignore
 └── .env                    # Environment variables (e.g., API keys - not committed
 ```
-## Getting Started
+<!-- ## Getting Started
 
 ### Installation
 
@@ -79,8 +69,8 @@ cd transnlp
 2.  **Create and activate a virtual environment (recommended):**
 
     ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: `venv\Scripts\activate`
+    python -m venv env
+    source env/bin/activate  # On Windows: `env\Scripts\activate`
 
 
     ```
@@ -102,8 +92,8 @@ cd transnlp
 
 
     ```
-
-### Initial Setup (Data & Models)
+ -->
+<!-- ### Initial Setup (Data & Models)
 
 For the application to function correctly, you need to first scrape data and train the NLP and prediction models. This process involves executing specific scripts:
 
@@ -138,10 +128,14 @@ For the application to function correctly, you need to first scrape data and tra
     ```
 
     *This will train and save the `ensemble_classifier.pkl` model into `data/models/`.*
-
-### Run the Streamlit App
+ -->
+<!-- ### Run the Streamlit App
 
 ```bash
 streamlit run app.py
 
-```
+``` -->
+
+## Other Works
+
+[Visit the App] : https://transnlp.streamlit.app/
