@@ -45,7 +45,7 @@ def app():
         if content_to_analyze and len(content_to_analyze.strip()) >= 50:
             with st.spinner("Analyzing transcript and predicting success..."):
                 try:
-                    # This function call will trigger the model loading
+                    # trigger the model loading
                     predicted_category, prediction_proba = predict_rating_type(content_to_analyze)
 
                     st.markdown("---")
@@ -56,7 +56,7 @@ def app():
                     else:
                         st.warning(f"**Predicted Success: {predicted_category} ⚠️**")
 
-                    # Create a simple probability bar chart
+                    # probability bar chart
                     if prediction_proba is not None:
                         st.write("Prediction Confidence:")
                         prob_df = pd.DataFrame({

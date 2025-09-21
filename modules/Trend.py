@@ -11,28 +11,22 @@ import numpy as np
 st.title("Cultural Trend Dashboard")
 st.write("Visualize shifts in content appeal and thematic relevance over time, offering strategic foresight.")
 
-# Load processed data
 processed_data_path = os.path.join(PROCESSED_DATA_DIR, 'processed_content_with_clusters.csv')
 content_df = load_data_from_csv(processed_data_path)
 
-# Define actual topic columns
 TOPICS = ['Culture', 'UK', 'Crimes', 'Situational', 'Immigrants', 'Relationships', 'Politics']
 
-# Check required columns
 if content_df.empty or 'preprocessed_content' not in content_df.columns or 'Year' not in content_df.columns:
     st.error("Processed data not found, or missing 'preprocessed_content' or 'Year' column.")
     app_logger.error("Required columns missing for Cultural Trend Dashboard.")
     st.stop()
 
-# Clean and convert year
 content_df['Year'] = pd.to_numeric(content_df['Year'], errors='coerce').fillna(0).astype(int)
 content_df = content_df[content_df['Year'] > 0]
 
-# Convert topic columns to numeric
 for col in TOPICS:
     content_df[col] = pd.to_numeric(content_df[col], errors='coerce').fillna(0)
 
-# Normalize topic proportions per row
 topic_sum = content_df[TOPICS].sum(axis=1).replace(0, np.nan)
 content_df[TOPICS] = content_df[TOPICS].div(topic_sum, axis=0).fillna(0) * 100
 

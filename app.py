@@ -2,16 +2,13 @@ import streamlit as st
 import os
 import sys
 
-# Add src directory to Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 from utils.logger import setup_logging
 from src.config import APP_NAME
 
-# Import your page modules (instead of using pages/ auto-detect)
-from modules import predict  # adjust names to match your files
+from modules import predict
 
-# Setup logging
 logger = setup_logging()
 
 st.set_page_config(
@@ -19,7 +16,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# Map of pages to show in sidebar
 PAGES = {
     "Success Predictor": predict.app,
     # # "Audience Insights": Insights.app,

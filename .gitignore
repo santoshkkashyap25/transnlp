@@ -46,3 +46,6 @@ ehthumbs.db
 
 # Streamlit specific
 .streamlit/
+
+modules/Insights.py
+modules/Trend.py
