@@ -4,7 +4,7 @@
 
 This project offers platform for leveraging Natural Language Processing (NLP) to predict content success. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/).
 
-## Features and EDA
+## Features
 
 * **Web Scraping**: Automated collection of stand-up comedy transcripts, comedian names, show titles, and associated metadata (Year, IMDb Rating, Runtime) directly from the web.
 
