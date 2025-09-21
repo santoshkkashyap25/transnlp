@@ -1,8 +1,7 @@
 import os
 
 # Application constants
-APP_NAME = "Content Analytics & Predictor"
-PAGES_DIR = "pages"
+APP_NAME = "Transcript Success Predictor"
 
 # Data and Model Paths
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
