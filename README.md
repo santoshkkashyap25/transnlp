@@ -1,8 +1,8 @@
-# TransNLP: Transcript Analysis & IMDb Rating Predictor
+# TransNLP: Transcript Analysis & Success Predictor
 
 [Visit the App] : https://transnlp.streamlit.app/
 
-This project offers platform for leveraging Natural Language Processing (NLP) to predict content success. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/).
+This project offers platform for leveraging Natural Language Processing (NLP) to predict transcript success. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/) for training and analysis.
 
 ## Features
 
