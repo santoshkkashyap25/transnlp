@@ -2,7 +2,7 @@
 
 [Visit the App] : https://transnlp.streamlit.app/
 
-This project offers platform for leveraging Natural Language Processing (NLP) to predict transcript success. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/) for training and analysis.
+This project offers platform for leveraging Natural Language Processing (NLP) to predict transcript's success. Transcripts are sourced from [**Scraps From The Loft**](https://scrapsfromtheloft.com/) for training and analysis.
 
 ## Features
 
@@ -32,8 +32,8 @@ transnlp/
 │       ├── kmeans_lda.pkl
 │       ├── kmeans_tfidf.pkl
 │       └── ensemble_classifier.pkl
-├── pages/                  # Streamlit multi-page application components
-│   ├── 01_Content_Success_Predictor.py
+├── modules/                  # Streamlit multi-page application components
+│   ├── predict.py
 ├── scripts/                # Standalone scripts for data acquisition and initial processing
 │   ├── scrape_data.py      # Script to scrape and perform initial cleaning
 │   └── preprocess_data.py  # Script for further preprocessing and feature engineering
