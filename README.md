@@ -138,4 +138,5 @@ streamlit run app.py
 
 ## Other Works
 
-[Visit the App] : https://transnlp.streamlit.app/
+[Visit the App] : https://factschecker.streamlit.app/
+

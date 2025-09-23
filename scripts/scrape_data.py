@@ -18,11 +18,9 @@ from src.config import SCRAPING_BASE_URL, RAW_DATA_DIR, TRANSCRIPTS_RAW_DIR
 
 warnings.filterwarnings('ignore')
 
-# Initialize IMDb API
-ia = imdb.IMDb()
+ia = imdb.IMDb()PI
 
 def _fetch_html(url):
-    """Helper function to fetch HTML content from a URL."""
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()  # Raise an HTTPError for bad responses (4xx or 5xx)
@@ -32,19 +30,16 @@ def _fetch_html(url):
         return None
 
 def scrape_links(url):
-    """Scrapes all content links from the given URL."""
     app_logger.info(f"Scraping content links from {url}")
     html_data = _fetch_html(url)
     if not html_data:
         return []
     soup = BeautifulSoup(html_data, "lxml")
     
-    # Try the specific class first (from notebook)
     specific_section = soup.find(class_="elementor-section elementor-top-section elementor-element elementor-element-b70b8d7 elementor-section-boxed elementor-section-height-default elementor-section-height-default")
     if specific_section:
         result = [x.get('href') for x in specific_section.find_all("a")]
     else:
-        # Broader search if the specific class isn't found or changes
         app_logger.warning("Specific elementor-section class not found for links, attempting broader search.")
         result = [a.get('href') for a in soup.find_all('a', href=True) if SCRAPING_BASE_URL in a.get('href')]
         result = [link for link in result if "/stand-up-comedy-scripts/" in link and link != SCRAPING_BASE_URL] # Filter to specific content links
@@ -53,7 +48,6 @@ def scrape_links(url):
     return result
 
 def scrape_tags(url):
-    """Scrapes content titles/tags from the given URL."""
     app_logger.info(f"Scraping tags (titles) from {url}")
     html_data = _fetch_html(url)
     if not html_data:
@@ -65,7 +59,6 @@ def scrape_tags(url):
         result = [x.text.strip() for x in specific_section.find_all("h3")]
     else:
         app_logger.warning("Specific elementor-section class not found for tags, attempting broader search.")
-        # Attempt to find h3 elements within common content areas
         result = [h3.text.strip() for h3 in soup.find_all('h3')]
         result = [tag for tag in result if tag and ('Stand-Up' in tag or 'Comedy' in tag)] # Basic filtering
 
@@ -73,10 +66,6 @@ def scrape_tags(url):
     return result
 
 def scrape_transcript(url, content_id):
-    """
-    Scrapes the transcript from a given content URL.
-    Checks if the transcript already exists to avoid re-scraping.
-    """
     os.makedirs(TRANSCRIPTS_RAW_DIR, exist_ok=True)
     transcript_file_path = os.path.join(TRANSCRIPTS_RAW_DIR, f"{content_id}.pkl")
 
@@ -98,7 +87,6 @@ def scrape_transcript(url, content_id):
         result = [x.text for x in specific_content_element.find_all("p")]
     else:
         app_logger.warning("Specific content element class not found for transcript, attempting broader search.")
-        # Fallback: look for paragraphs within the main content area (e.g., article body)
         main_content = soup.find('article') or soup.find('main') or soup.find(class_=re.compile(r'content|post|article'))
         if main_content:
             result = [p.text for p in main_content.find_all('p')]
@@ -119,11 +107,9 @@ def scrape_transcript(url, content_id):
     return result
 
 def combine_text(list_of_text):
-    """Combines a list of text paragraphs into one large chunk of text."""
     return ' '.join(list_of_text)
 
 def clean_text_content(text):
-    """Applies a series of cleaning steps to the text."""
     text = re.sub(r'\\[.*?\\]', '', text)          # Remove text in square brackets
     text = text.lower()                            # Convert text to lowercase
     text = re.sub('[%s]' % re.escape(string.punctuation), '', text) # Remove punctuation
@@ -146,12 +132,10 @@ def scrape_imdb_details(url):
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # --- Title ---
         title_element = soup.find('h1', {'data-testid': 'hero__pageTitle'})
         if title_element:
             details['title'] = title_element.get_text(strip=True)
 
-        # --- Runtime ---
         for li in soup.find_all('li', class_='ipc-inline-list__item'):
             text = li.get_text(strip=True)
             if re.match(r'^\d+h\s*\d*m?$|^\d+m$', text):
@@ -162,11 +146,10 @@ def scrape_imdb_details(url):
                     total_minutes += int(hours.group(1)) * 60
                 if minutes:
                     total_minutes += int(minutes.group(1))
-                details['runtime'] = total_minutes  # integer value
+                details['runtime'] = total_minutes
                 break
 
 
-        # --- Rating ---
         rating_element = soup.find('span', class_='ipc-rating-star--rating') or \
                          soup.find('span', {'data-testid': 'hero-rating-bar__aggregate-rating__score'})
         if rating_element:
@@ -246,38 +229,33 @@ def scrape_and_clean_data(limit=None):
     output_csv_path = os.path.join(RAW_DATA_DIR, 'scraped_and_cleaned_content_data.csv')
 
     data_frame = pd.DataFrame()
-    # Attempt to load existing data to resume
     if os.path.exists(output_csv_path):
         try:
             data_frame = pd.read_csv(output_csv_path)
             app_logger.info(f"Resuming from existing data: {len(data_frame)} records loaded from {output_csv_path}")
-            # Ensure proper dtypes for potential NaN columns
             data_frame['runtime'] = pd.to_numeric(data_frame.get('runtime', pd.Series()), errors='coerce')
             data_frame['rating'] = pd.to_numeric(data_frame.get('rating', pd.Series()), errors='coerce')
             data_frame['S No.'] = pd.to_numeric(data_frame.get('S No.', pd.Series()), errors='coerce')
             
-            # If resuming with a limit, truncate the loaded data to the limit
             if limit is not None and len(data_frame) > limit:
                 data_frame = data_frame.head(limit).copy()
                 app_logger.info(f"Truncated loaded data to {limit} entries due to limit parameter.")
 
         except Exception as e:
             app_logger.warning(f"Could not load existing data from {output_csv_path} for resumption: {e}. Starting fresh.")
-            data_frame = pd.DataFrame() # Start fresh if loading fails
+            data_frame = pd.DataFrame()
 
-    # --- Step 1: Scrape links and tags if not already done or if starting fresh ---
     if data_frame.empty or 'URL' not in data_frame.columns or 'Tag' not in data_frame.columns:
         links = scrape_links(SCRAPING_BASE_URL)
         tags = scrape_tags(SCRAPING_BASE_URL)
 
         if not links or not tags:
             app_logger.error("Failed to scrape links or tags. Aborting data processing.")
-            return pd.DataFrame() # Return empty DataFrame
+            return pd.DataFrame()
 
         min_len = min(len(links), len(tags))
         app_logger.info(f"Initial scrape found {min_len} potential items.")
 
-        # Apply the limit here
         if limit is not None:
             min_len = min(min_len, limit)
             app_logger.info(f"Processing limited to first {min_len} items based on 'limit' parameter.")
@@ -290,32 +268,26 @@ def scrape_and_clean_data(limit=None):
             "URL": links
         })
         data_frame.insert(loc=0, column='S No.', value=np.arange(len(data_frame)))
-        # Save after initial link/tag scraping
         data_frame.to_csv(output_csv_path, index=False)
         app_logger.info(f"Initial links/tags saved to: {output_csv_path}")
     else:
         app_logger.info("Links and tags already loaded from previous run or present in loaded data.")
-        # Ensure that if we loaded data, and a limit is set, we respect it
         if limit is not None and len(data_frame) > limit:
             data_frame = data_frame.head(limit).copy()
             app_logger.info(f"Truncated existing data to {limit} entries based on 'limit' parameter.")
 
 
-    # Ensure the raw transcripts directory exists
     os.makedirs(TRANSCRIPTS_RAW_DIR, exist_ok=True)
 
-    # --- Step 2: Scrape/Load Transcripts (resumable) ---
     app_logger.info("Scraping/Loading transcripts (resumable).")
     if 'Raw Transcript' not in data_frame.columns:
-        data_frame['Raw Transcript'] = [[]] * len(data_frame) # Initialize with empty lists
+        data_frame['Raw Transcript'] = [[]] * len(data_frame)
     
     for index, row in data_frame.iterrows():
         transcript_file_path = os.path.join(TRANSCRIPTS_RAW_DIR, f"{row['S No.']}.pkl")
-        # Only call scrape_transcript if the file doesn't exist or if the Raw Transcript in DF is empty/invalid
         if not os.path.exists(transcript_file_path) or not (isinstance(row.get('Raw Transcript'), list) and len(row.get('Raw Transcript', [])) > 0):
             transcript_content = scrape_transcript(row['URL'], row['S No.'])
             data_frame.at[index, 'Raw Transcript'] = transcript_content
-            # Save after each transcript to persist progress. This is verbose but safe for resuming.
             data_frame.to_csv(output_csv_path, index=False) 
         
     initial_rows_after_transcript = len(data_frame)
@@ -325,8 +297,6 @@ def scrape_and_clean_data(limit=None):
     data_frame = data_frame.reset_index(drop=True)
     app_logger.info(f"Transcripts processing complete. Current records: {len(data_frame)}")
 
-    # Combine the list of paragraphs into single strings for each transcript
-    # Check if 'Transcript' column is missing or if any values are not strings (or empty)
     if 'Transcript' not in data_frame.columns or data_frame['Transcript'].apply(lambda x: not isinstance(x, str) or x.strip() == '').any():
         app_logger.info("Combining raw transcripts into single strings.")
         data_frame['Transcript'] = data_frame['Raw Transcript'].apply(combine_text)
@@ -335,7 +305,6 @@ def scrape_and_clean_data(limit=None):
     else:
         app_logger.info("Transcripts already combined.")
 
-    # --- Step 3: Clean the Transcripts ---
     app_logger.info("Applying cleaning to transcripts.")
     data_frame['Transcript'] = data_frame['Transcript'].apply(clean_text_content)
     
@@ -347,20 +316,16 @@ def scrape_and_clean_data(limit=None):
     data_frame.to_csv(output_csv_path, index=False)
     app_logger.info(f"Transcripts cleaned. Current records: {len(data_frame)}")
 
-    # --- Step 4: Extract Name, Title, Year from Tag ---
     if 'Names' not in data_frame.columns or data_frame['Names'].isnull().any() or \
        'Title' not in data_frame.columns or data_frame['Title'].isnull().any() or \
        'Year' not in data_frame.columns or data_frame['Year'].isnull().any():
 
         app_logger.info("Extracting Names, Titles, Years from tags.")
 
-        # Step 1: Clean tag column
         data_frame['CleanTag'] = data_frame['Tag'].str.split('|').str[0].str.strip()
 
-        # Step 2: Extract Year
         data_frame['Year'] = data_frame['CleanTag'].str.extract(r'(\d{4})')
 
-        # Step 3: Extract Name
         def extract_name(tag):
             if ':' in tag:
                 return tag.split(':')[0].strip()
@@ -372,7 +337,6 @@ def scrape_and_clean_data(limit=None):
 
         data_frame['Names'] = data_frame['CleanTag'].apply(extract_name)
 
-        # Step 4: Extract Title
         def extract_title(row):
             tag = str(row.get('CleanTag') or '')
             name = str(row.get('Names') or '')
@@ -382,7 +346,6 @@ def scrape_and_clean_data(limit=None):
 
         data_frame['Title'] = data_frame.apply(extract_title, axis=1)
 
-        # Save cleaned data
         data_frame.to_csv(output_csv_path, index=False)
         app_logger.info(f"Names, Titles, Years extracted. Current records: {len(data_frame)}")
 
@@ -390,17 +353,13 @@ def scrape_and_clean_data(limit=None):
         app_logger.info("Names, Titles, Years already extracted.")
 
 
-    # --- Step 5: Get IMDb Info ---
     app_logger.info("Fetching IMDb info (resumable). This might take some time.")
     data_frame = get_imdb_info(data_frame)
     data_frame.to_csv(output_csv_path, index=False)
     app_logger.info(f"IMDb info fetch complete. Current records: {len(data_frame)}")
 
-    # Replace empty strings/None with NaN for consistency before saving
     data_frame = data_frame.replace(r'^\s*$', np.nan, regex=True)
 
-    # --- Step 6: Detect Language ---
-    # Re-detect if column missing or any NaNs/empty strings
     if 'language' not in data_frame.columns or data_frame['language'].isnull().any() or (data_frame['language'].astype(str).str.strip() == '').any():
         app_logger.info("Detecting language for transcripts.")
         if 'language' not in data_frame.columns:
